@@ -1,0 +1,78 @@
+import json
+import os
+
+def registro_usuario():
+    usuarios = {}
+
+    with open("usuarios.json", "r") as file:
+            usuarios = json.load(file)
+    usuario = input("Ingrese nombre de usuario: ")
+    contra = input("Ingrese contraseña (al menos 8 caracteres): ")
+    while len(contra) < 8:
+        print("La contraseña es menor a 8 caracteres\n")
+        contra = input("Ingrese su contraseña nuevamente (al menos 8 caracteres): ")
+    usuarios[usuario] = contra
+    with open("usuarios.json", "w") as file:
+        json.dump(usuarios, file)
+        file.close()
+    print("Usuario registrado correctamente!")
+
+def ingreso_usuario():
+    with open("usuarios.json", "r") as file:
+        usuarios = json.load(file)
+    while True:
+        usuario = input("Ingrese nombre de usuario: ")
+        contra = input("Ingrese contraseña: ")
+        if usuario in usuarios and usuarios[usuario] == contra:
+            print("Inicio de sesión exitoso.\nBienvenido!.")
+            break
+        else:
+            print("El usuario no encontrado. Elija opcion:\n1.Intentar nuevamente\n2.Registrarse")
+            opcion = int(input("Opcion: "))
+            if (opcion == 1):
+                ingreso_usuario()
+                break
+            elif (opcion == 2):
+                registro_usuario()
+                break
+            else:
+                print("Opcion incorrecta. Seleccione una opcion correcta.")
+    file.close()            
+
+def leer_datos():
+    with open("usuarios.json", "r") as file:
+        usuarios = json.load(file)
+    
+    print("Base de datos MarketCons:")
+    for usuario, contrasena in usuarios.items():
+        print(f"Usuario: {usuario}, Contraseña: {contrasena}")
+    file.close()
+
+def salida_sistema():
+    print("Información guardada correctamente.\n")
+    print("Vuelva pronto!. Saludos!")
+
+
+
+while True:
+    print("\nBienvenido a MarketCons!\nEl primer marketplace de construccion!\n\nSeleccione una opcion por favor:")
+    print("1. Registrar usuario")
+    print("2. Iniciar sesión")
+    print("3. Lectura base datos")
+    print("4. Salir")
+    opcion = int(input("Opción: "))
+
+    os.system("cls")
+    
+    if (opcion == 1):
+        registro_usuario()
+    elif (opcion == 2):
+        ingreso_usuario()
+    elif (opcion == 3):
+        leer_datos()
+    elif (opcion == 4):
+        salida_sistema()
+        break
+    else:
+        print("Opcion incorrecta. Seleccione una opcion correcta.")
+
